@@ -1,13 +1,9 @@
 import { createRoot } from 'react-dom/client';
+import App from './App';
 import './index.css';
-import ManagerWindow from '@/components/ManagerWindow';
-import WorkspaceWindow from '@/components/WorkspaceWindow';
-import SettingsWindow from '@/components/SettingsWindow';
 
-const queryParams = new URLSearchParams(window.location.search);
-const queryObject = Object.fromEntries(queryParams.entries());
+const container = document.getElementById('root')
+const root = createRoot(container);
 
-const rootDOM = document.getElementById('root')
-const appRoot = createRoot(rootDOM);
+root.render(<App />)
 
-appRoot.render(queryObject.type === 'workspace' ? <WorkspaceWindow workspace={queryObject.workspace} /> : queryObject.type === 'settings' ? <SettingsWindow /> : <ManagerWindow />);
