@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BaseWindowConstructorOptions, BrowserWindow } from 'electron';
 import path from 'path';
 import fs from 'fs';
 import "@/api/index";
@@ -9,10 +9,11 @@ if (require('electron-squirrel-startup')) {
 }
 
 type CreateWindowOptions = {
-  type: WindowType;
-  workspace?: Workspace;
-  width?: number;
-  height?: number;
+  data: {
+    type: WindowType;
+    workspace?: string;
+  },
+  window?: Partial<BaseWindowConstructorOptions>;
 }
 
 const checkSettings = () => {
@@ -29,15 +30,14 @@ const checkSettings = () => {
 
 const createWindow = (options: CreateWindowOptions) => {
   const mainWindow = new BrowserWindow({
-    width: options.width || 800,
-    height: options.height || 600,
+    ...options.window,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
   });
 
-  const queryObject: { type: WindowType, workspace?: string } = { type: options.type };
-  if (options.workspace) queryObject.workspace = options.workspace.id;
+  const queryObject: { type: WindowType, workspace?: string } = { type: options.data.type };
+  if (options.data.workspace) queryObject.workspace = options.data.workspace;
   const queryParams = new URLSearchParams(queryObject);
 
   // and load the index.html of the app.
@@ -50,8 +50,25 @@ const createWindow = (options: CreateWindowOptions) => {
 
 const startup = () => {
   const settings = checkSettings();
-  if (settings.lastWorkspace) createWindow({ type: 'workspace', workspace: settings.lastWorkspace });
-  else createWindow({ type: 'manager' });
+  if (settings.lastWorkspace) {
+    createWindow({
+      data: { type: 'workspace', workspace: settings.lastWorkspace.id }
+    });
+  } else {
+    const windowOptions = {
+      width: 720,
+      height: 450,
+      resizable: false,
+      maximizable: false,
+      show: false,
+      frame: false
+      // TODO: customize
+    }
+    createWindow({
+      data: { type: 'manager' },
+      window: windowOptions
+    });
+  }
 }
 
 // This method will be called when Electron has finished
