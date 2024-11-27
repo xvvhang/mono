@@ -60,7 +60,6 @@ const startup = () => {
       height: 450,
       resizable: false,
       maximizable: false,
-      show: false,
       frame: false
       // TODO: customize
     }
