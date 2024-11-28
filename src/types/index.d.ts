@@ -7,6 +7,7 @@ type Workspace = {
 }
 
 type Settings = {
+  theme: "auto" | "light" | "dark";
   lastWorkspace: Workspace | null;
   workspaces: Workspace[];
 }

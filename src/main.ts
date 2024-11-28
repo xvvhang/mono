@@ -2,6 +2,7 @@ import { app, BaseWindowConstructorOptions, BrowserWindow } from 'electron';
 import path from 'path';
 import fs from 'fs';
 import "@/api/index";
+import defaultSettings from '@/templates/settings.json';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -22,7 +23,6 @@ const checkSettings = () => {
     const settings = fs.readFileSync(settingsPath, { encoding: 'utf-8' });
     return JSON.parse(settings);
   } else {
-    const defaultSettings: { lastWorkspace: Workspace | null, workspaces: Workspace[] } = { lastWorkspace: null, workspaces: [] };
     fs.writeFileSync(settingsPath, JSON.stringify(defaultSettings));
     return defaultSettings;
   }
@@ -60,8 +60,8 @@ const startup = () => {
       height: 450,
       resizable: false,
       maximizable: false,
-      frame: false
-      // TODO: customize
+      frame: false,
+      vibrancy: "sidebar",
     }
     createWindow({
       data: { type: 'manager' },

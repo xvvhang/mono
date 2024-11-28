@@ -12,17 +12,19 @@ const queryParams = new URLSearchParams(window.location.search);
 const queryObject = Object.fromEntries(queryParams.entries());
 
 const App: React.FC = () => {
-  const [_, setSettings] = useAtom(settingsAtom)
+  const [settings, setSettings] = useAtom(settingsAtom)
+
   useEffect(() => {
     const init = async () => {
-      const settings = await window.api.invoke('app.settings.read');
-      setSettings(settings);
+      const _settings = await window.api.invoke('app.settings.read');
+      setSettings(_settings);
     }
 
     init();
   }, []);
+
   return (
-    <Theme>
+    <Theme appearance={ settings.theme === "auto" ?  (window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "light") : settings.theme }> 
       {queryObject.type === 'manager' && <ManagerWindow />}
       {queryObject.type === 'settings' && <SettingsWindow />}
       {queryObject.type === 'workspace' && queryObject.workspace && <WorkspaceWindow />}
