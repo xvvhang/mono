@@ -1,58 +1,17 @@
-import { app, BaseWindowConstructorOptions, BrowserWindow } from 'electron';
-import path from 'path';
-import fs from 'fs';
+import { app, BrowserWindow } from 'electron';
 import "@/api/index";
-import defaultSettings from '@/templates/settings.json';
+import { createWindow, initSettings } from './api/internals/app';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
   app.quit();
 }
 
-type CreateWindowOptions = {
-  data: {
-    type: WindowType;
-    workspace?: string;
-  },
-  window?: Partial<BaseWindowConstructorOptions>;
-}
-
-const checkSettings = () => {
-  const settingsPath = path.join(app.getPath('userData'), 'settings.json');
-  if (fs.existsSync(settingsPath)) {
-    const settings = fs.readFileSync(settingsPath, { encoding: 'utf-8' });
-    return JSON.parse(settings);
-  } else {
-    fs.writeFileSync(settingsPath, JSON.stringify(defaultSettings));
-    return defaultSettings;
-  }
-}
-
-const createWindow = (options: CreateWindowOptions) => {
-  const mainWindow = new BrowserWindow({
-    ...options.window,
-    webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
-    },
-  });
-
-  const queryObject: { type: WindowType, workspace?: string } = { type: options.data.type };
-  if (options.data.workspace) queryObject.workspace = options.data.workspace;
-  const queryParams = new URLSearchParams(queryObject);
-
-  // and load the index.html of the app.
-  if (MAIN_WINDOW_VITE_DEV_SERVER_URL) mainWindow.loadURL(`${MAIN_WINDOW_VITE_DEV_SERVER_URL}?${queryParams}`);
-  else mainWindow.loadFile(path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html?${queryParams}`));
-
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools();
-}
-
 const startup = () => {
-  const settings = checkSettings();
+  const settings = initSettings();
   if (settings.lastWorkspace) {
     createWindow({
-      data: { type: 'workspace', workspace: settings.lastWorkspace.id }
+      data: { type: 'workspace', workspace: settings.lastWorkspace }
     });
   } else {
     const windowOptions = {
@@ -61,7 +20,7 @@ const startup = () => {
       resizable: false,
       maximizable: false,
       frame: false,
-      vibrancy: "sidebar",
+      titleBarStyle: "hiddenInset" as "hiddenInset"
     }
     createWindow({
       data: { type: 'manager' },

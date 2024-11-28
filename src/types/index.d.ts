@@ -1,15 +1,9 @@
 type WindowType = 'manager' | 'workspace' | 'settings';
 
-type Workspace = {
-  id: string;
-  name: string;
-  path: string;
-}
-
 type Settings = {
   theme: "auto" | "light" | "dark";
-  lastWorkspace: Workspace | null;
-  workspaces: Workspace[];
+  lastWorkspace: string;
+  workspaces: string[];
 }
 
 interface Window {

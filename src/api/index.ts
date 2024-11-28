@@ -1,7 +1,7 @@
 import { ipcMain } from "electron";
-import { readSettingsListener, writeSettingsListener } from "./listeners";
+import { closeWindowListener, createNewWorkspaceListener, openDirectoryListener, openExistingWorkspaceListener } from "./listeners";
 
-ipcMain.handle('app.settings.read', readSettingsListener);
-ipcMain.handle('app.settings.write', writeSettingsListener);
-
-console.log('API listeners registered');
+ipcMain.on('close-window', closeWindowListener);
+ipcMain.handle('app.workspace.open-directory', openDirectoryListener);
+ipcMain.handle('app.workspace.create-new-workspace', createNewWorkspaceListener);
+ipcMain.handle('app.workspace.open-existing-workspace', openExistingWorkspaceListener);
