@@ -1,5 +1,5 @@
 import { ipcMain } from "electron";
-import { closeWindowListener, createNewWorkspaceListener, getSettingsListener, openDirectoryListener, openExistingWorkspaceListener, openWorkspaceListener } from "./listeners";
+import { closeWindowListener, contextWorkspaceListener, createNewWorkspaceListener, getSettingsListener, openDirectoryListener, openExistingWorkspaceListener, openWorkspaceListener } from "./listeners";
 
 // system
 ipcMain.handle('system.open-directory', openDirectoryListener);
@@ -12,3 +12,4 @@ ipcMain.handle('app.get-settings', getSettingsListener);
 ipcMain.handle('launcher.create-new-workspace', createNewWorkspaceListener);
 ipcMain.handle('launcher.open-existing-workspace', openExistingWorkspaceListener);
 ipcMain.handle('launcher.open-workspace', openWorkspaceListener);
+ipcMain.on('launcher.context-workspace', contextWorkspaceListener);

@@ -1,4 +1,4 @@
-import { app, BaseWindowConstructorOptions, BrowserWindow } from "electron";
+import { app, BaseWindowConstructorOptions, BrowserWindow, shell } from "electron";
 import path from "path";
 import fs from "fs";
 
@@ -37,10 +37,6 @@ export const ensureFolderExists = (folder: string): string => {
   else return folder;
 }
 
-export const checkFolderExists = (folder: string): boolean => {
-  return fs.existsSync(folder);
-}
-
 export const launchWorkspace = (folder: string) => {
   // TODO: init files
 
@@ -67,7 +63,6 @@ type CreateWindowOptions = {
   },
   window?: Partial<BaseWindowConstructorOptions>;
 }
-
 
 export const createWindow = (options: CreateWindowOptions) => {
   const mainWindow = new BrowserWindow({

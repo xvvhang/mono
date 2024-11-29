@@ -10,6 +10,8 @@ const WorkspaceList: React.FC = () => {
     if (!res.success) console.error(res.message);
   }
 
+  const handleContextWorkspace = async (folder: string) => window.api.send('launcher.context-workspace', folder);
+
   return (
     <div className="w-full h-full flex flex-col">
       {
@@ -17,7 +19,7 @@ const WorkspaceList: React.FC = () => {
           <ul className="h-full overflow-auto p-2 flex flex-col gap-2">
             {
               settings.workspaces.map((folder, index) => (
-                <li className="border border-gray-6 rounded-2 bg-gray-2 p-2 hover:bg-gray-3" key={index} onClick={() => handleClickWorkspace(folder)}>
+                <li className="border border-gray-6 rounded-2 bg-gray-2 p-2 hover:bg-gray-3" key={index} onClick={() => handleClickWorkspace(folder)} onContextMenu={() => handleContextWorkspace(folder)}>
                   <div className="flex items-center gap-1 text-gray-12">
                     <Dock size={14} />
                     <span className="text-1 font-bold">{folder.split('/').pop()}</span>
