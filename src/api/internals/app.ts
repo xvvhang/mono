@@ -32,9 +32,13 @@ export const initSettings = () => {
   return readSettings();
 }
 
-export const ensureFolderExists = (folder: string) => {
-  console.log('ensure folder exists: ', folder);
+export const ensureFolderExists = (folder: string): string => {
   if (!fs.existsSync(folder)) return fs.mkdirSync(folder, { recursive: true });
+  else return folder;
+}
+
+export const checkFolderExists = (folder: string): boolean => {
+  return fs.existsSync(folder);
 }
 
 export const launchWorkspace = (folder: string) => {

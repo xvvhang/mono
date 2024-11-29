@@ -23,7 +23,7 @@ const startup = () => {
       titleBarStyle: "hiddenInset" as "hiddenInset"
     }
     createWindow({
-      data: { type: 'manager' },
+      data: { type: 'launcher' },
       window: windowOptions
     });
   }

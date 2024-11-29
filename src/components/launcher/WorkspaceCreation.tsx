@@ -8,12 +8,14 @@ const WorkspaceCreation: React.FC = () => {
   const [newWorkspaceLocation, setNewWorksapceLocation] = useState('');
 
   const handleClickOpenExistingWorkspace = async () => {
-    await window.api.invoke('app.workspace.open-existing-workspace');
+    const res = await window.api.invoke('launcher.open-existing-workspace');
+    if (!res.success) console.error(res.message);
   }
 
   const handleClickOpenDirectory = async () => {
-    const res = await window.api.invoke('app.workspace.open-directory', { defaultPath: newWorkspaceLocation });
+    const res = await window.api.invoke('system.open-directory', { defaultPath: newWorkspaceLocation });
     if (res.success) setNewWorksapceLocation(res.data);
+    else console.error(res.message);
   }
 
   const handleClickCancelCreateNewWorkspace = () => {
@@ -25,7 +27,8 @@ const WorkspaceCreation: React.FC = () => {
   const handleClickSubmitCreateNewWorkspace = async () => {
     // TODO: 兼容 Windows
     const folder = `${newWorkspaceLocation}/${newWorkspaceName}`;
-    await window.api.invoke('app.workspace.create-new-workspace', folder);
+    const res = await window.api.invoke('launcher.create-new-workspace', folder);
+    if (!res.success) console.error(res.message);
   }
 
   return (
