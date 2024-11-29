@@ -4,7 +4,7 @@ import { Bell, Package2, ListTodo, ListTree, Settings } from "lucide-react";
 const StatusBar: React.FC = () => {
   // TODO: global state for active panels
   return (
-    <div className="h-6 border-t border-gray-6 bg-gray-1 px-4 flex justify-between text-gray-11">
+    <div className="h-6 border-t border-gray-6 bg-gray-1 px-3 flex justify-between text-gray-11">
       <div className="flex items-center gap-1">
         <StatusBarIconButton label="Open Settings Window">
           <Settings size={15} strokeWidth={2} />
