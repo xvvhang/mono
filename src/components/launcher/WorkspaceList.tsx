@@ -1,6 +1,6 @@
 import { settingsAtom } from "@/store";
 import { useAtom } from "jotai";
-import { Dock } from "lucide-react";
+import { Package2 } from "lucide-react";
 
 const WorkspaceList: React.FC = () => {
   const [settings] = useAtom(settingsAtom);
@@ -21,7 +21,7 @@ const WorkspaceList: React.FC = () => {
               settings.workspaces.map((folder, index) => (
                 <li className="border border-gray-6 rounded-2 bg-gray-2 p-2 hover:bg-gray-3" key={index} onClick={() => handleClickWorkspace(folder)} onContextMenu={() => handleContextWorkspace(folder)}>
                   <div className="flex items-center gap-1 text-gray-12">
-                    <Dock size={14} />
+                    <Package2 size={14} />
                     <span className="text-1 font-bold">{folder.split('/').pop()}</span>
                   </div>
                   <p className="text-1 text-gray-11">{folder}</p>

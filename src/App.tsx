@@ -22,7 +22,7 @@ const App: React.FC = () => {
     init();
   }, []);
   return (
-    <Theme> 
+    <Theme appearance="dark">
       {queryObject.type === 'launcher' && <Launcher />}
       {queryObject.type === 'settings' && <Settings />}
       {queryObject.type === 'workspace' && queryObject.workspace && <Workspace />}

@@ -1,6 +1,6 @@
 import { app, BrowserWindow } from 'electron';
 import "@/api/index";
-import { createWindow, initSettings } from './api/internals';
+import { createWindow, initSettings, launchWorkspace } from './api/internals';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -10,9 +10,7 @@ if (require('electron-squirrel-startup')) {
 const startup = () => {
   const settings = initSettings();
   if (settings.lastWorkspace) {
-    createWindow({
-      data: { type: 'workspace', workspace: settings.lastWorkspace }
-    });
+    launchWorkspace(settings.lastWorkspace);
   } else {
     const windowOptions = {
       width: 720,
