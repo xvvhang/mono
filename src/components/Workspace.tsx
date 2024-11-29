@@ -1,7 +1,12 @@
 import React from "react";
+import Layout from "./workspace/Layout";
 
 const WorkspaceWindow: React.FC = () => {
-  return <div>Workspace</div>
+  return (
+    <>
+      <Layout />
+    </>
+  )
 }
 
 export default WorkspaceWindow;
