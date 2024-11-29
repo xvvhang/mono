@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import './index.css';
 import "@radix-ui/themes/styles.css";
 import { Theme } from "@radix-ui/themes";
-import LauncherWindow from '@/components/LauncherWindow';
-import WorkspaceWindow from '@/components/WorkspaceWindow';
-import SettingsWindow from '@/components/SettingsWindow';
+import Launcher from '@/components/Launcher';
+import Workspace from '@/components/Workspace';
+import Settings from '@/components/Settings';
 import { useAtom } from "jotai";
 import { settingsAtom } from "./store";
 
@@ -23,9 +23,9 @@ const App: React.FC = () => {
   }, []);
   return (
     <Theme> 
-      {queryObject.type === 'launcher' && <LauncherWindow />}
-      {queryObject.type === 'settings' && <SettingsWindow />}
-      {queryObject.type === 'workspace' && queryObject.workspace && <WorkspaceWindow />}
+      {queryObject.type === 'launcher' && <Launcher />}
+      {queryObject.type === 'settings' && <Settings />}
+      {queryObject.type === 'workspace' && queryObject.workspace && <Workspace />}
     </Theme>
   )
 }
