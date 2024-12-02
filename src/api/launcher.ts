@@ -1,40 +1,10 @@
-import { BrowserWindow, dialog, Menu, MenuItem, shell } from "electron";
-import {
-  ensureFolderExists,
-  launchWorkspace,
-  readSettings,
-  writeSettings,
-  createWindow,
-} from "../internals";
 import fs from "fs";
+import { ensureFolderExists } from "@/utils/filesystem";
+import { launchWorkspace } from "@/utils/workspace";
+import { BrowserWindow, dialog, Menu, MenuItem, shell } from "electron";
+import { readSettings, writeSettings } from "@/utils/settings";
+import { createWindow } from "@/utils/windows";
 
-// system
-export const openDirectoryListener = async (
-  event: Electron.IpcMainInvokeEvent,
-  data: any,
-): Promise<InvokeResponse> => {
-  const options: Electron.OpenDialogOptions = { properties: ["openDirectory"] };
-  if (data.defaultPath) options.defaultPath = data.defaultPath;
-  const result = await dialog.showOpenDialog(options);
-  if (result.canceled) return { success: false, message: "cancelled" };
-  if (result.filePaths.length === 0)
-    return { success: false, message: "no file paths" };
-  return { success: true, data: result.filePaths[0] };
-};
-
-// app
-export const closeWindowListener = (event: Electron.IpcMainEvent) => {
-  const window = BrowserWindow.fromWebContents(event.sender);
-  window && window.close();
-};
-export const getSettingsListener = async (
-  event: Electron.IpcMainInvokeEvent,
-): Promise<InvokeResponse> => {
-  const settings = readSettings();
-  return { success: true, data: settings };
-};
-
-// launcher
 export const createNewWorkspaceListener = (
   event: Electron.IpcMainInvokeEvent,
   folder: string,
