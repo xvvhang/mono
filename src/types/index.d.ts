@@ -1,16 +1,16 @@
-type WindowType = 'launcher' | 'workspace' | 'settings';
+type WindowType = "launcher" | "workspace" | "settings";
 
 type Settings = {
   theme: "auto" | "light" | "dark";
   lastWorkspace: string;
   workspaces: string[];
-}
+};
 
 type InvokeResponse = {
   success: boolean;
   message?: string;
   data?: any;
-}
+};
 
 interface Window {
   api: {

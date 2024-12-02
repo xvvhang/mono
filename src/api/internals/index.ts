@@ -1,20 +1,28 @@
-import { app, BaseWindowConstructorOptions, BrowserWindow, shell } from "electron";
+import {
+  app,
+  BaseWindowConstructorOptions,
+  BrowserWindow,
+  shell,
+} from "electron";
 import path from "path";
 import fs from "fs";
 
-const settingsPath = path.join(app.getPath('userData'), 'settings.json');
+const settingsPath = path.join(app.getPath("userData"), "settings.json");
 
 const defaultSettings: Settings = {
-  "theme": "auto",
-  "lastWorkspace": "",
-  "workspaces": []
-}
+  theme: "auto",
+  lastWorkspace: "",
+  workspaces: [],
+};
 
 let cachedSettings: Settings | null = null;
 
 export const readSettings = (): Settings => {
-  return cachedSettings || JSON.parse(fs.readFileSync(settingsPath, { encoding: 'utf-8' }));
-}
+  return (
+    cachedSettings ||
+    JSON.parse(fs.readFileSync(settingsPath, { encoding: "utf-8" }))
+  );
+};
 
 export const writeSettings = (settings: Partial<Settings>): Settings => {
   const currentSettings = readSettings();
@@ -22,7 +30,7 @@ export const writeSettings = (settings: Partial<Settings>): Settings => {
   fs.writeFileSync(settingsPath, JSON.stringify(newSettings));
   cachedSettings = newSettings;
   return newSettings;
-}
+};
 
 export const initSettings = () => {
   if (!fs.existsSync(settingsPath)) {
@@ -30,56 +38,74 @@ export const initSettings = () => {
     cachedSettings = defaultSettings;
   }
   return readSettings();
-}
+};
 
 export const ensureFolderExists = (folder: string): string => {
   if (!fs.existsSync(folder)) return fs.mkdirSync(folder, { recursive: true });
   else return folder;
-}
+};
 
 export const launchWorkspace = (folder: string) => {
   // TODO: init files
 
   createWindow({
-    data: { type: 'workspace', workspace: folder },
+    data: { type: "workspace", workspace: folder },
     window: {
       width: 800,
       height: 600,
       frame: false,
-      titleBarStyle: "hiddenInset" as "hiddenInset"
-    }
+      titleBarStyle: "hiddenInset" as "hiddenInset",
+    },
   });
 
   const settings = readSettings();
   if (!settings.workspaces.includes(folder)) settings.workspaces.push(folder);
   settings.lastWorkspace = folder;
   writeSettings(settings);
+};
+
+interface BrowserWindowWithData extends BrowserWindow {
+  data: { type: WindowType; workspace?: string };
 }
 
 type CreateWindowOptions = {
   data: {
     type: WindowType;
     workspace?: string;
-  },
+  };
   window?: Partial<BaseWindowConstructorOptions>;
-}
+};
+
+const cachedWindows: BrowserWindowWithData[] = [];
 
 export const createWindow = (options: CreateWindowOptions) => {
   const mainWindow = new BrowserWindow({
     ...options.window,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
+      preload: path.join(__dirname, "preload.js"),
     },
-  });
+  }) as BrowserWindowWithData;
 
-  const queryObject: { type: WindowType, workspace?: string } = { type: options.data.type };
+  mainWindow.data = options.data;
+  cachedWindows.push(mainWindow);
+
+  const queryObject: { type: WindowType; workspace?: string } = {
+    type: options.data.type,
+  };
   if (options.data.workspace) queryObject.workspace = options.data.workspace;
   const queryParams = new URLSearchParams(queryObject);
 
   // and load the index.html of the app.
-  if (MAIN_WINDOW_VITE_DEV_SERVER_URL) mainWindow.loadURL(`${MAIN_WINDOW_VITE_DEV_SERVER_URL}?${queryParams}`);
-  else mainWindow.loadFile(path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html?${queryParams}`));
+  if (MAIN_WINDOW_VITE_DEV_SERVER_URL)
+    mainWindow.loadURL(`${MAIN_WINDOW_VITE_DEV_SERVER_URL}?${queryParams}`);
+  else
+    mainWindow.loadFile(
+      path.join(
+        __dirname,
+        `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html?${queryParams}`,
+      ),
+    );
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
-}
+};
