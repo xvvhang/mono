@@ -19,6 +19,7 @@ const WorkspaceList: React.FC = () => {
           <ul className="h-full overflow-auto p-2 flex flex-col gap-2">
             {
               settings.workspaces.map((folder, index) => (
+                // TODO: change background color
                 <li className="border border-gray-6 rounded-2 bg-gray-2 p-2 hover:bg-gray-3" key={index} onClick={() => handleClickWorkspace(folder)} onContextMenu={() => handleContextWorkspace(folder)}>
                   <div className="flex items-center gap-1 text-gray-12">
                     <Package2 size={14} />

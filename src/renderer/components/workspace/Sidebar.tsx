@@ -20,6 +20,7 @@ const Sidebar: React.FC<SidebarProps> = ({ side }) => {
         )
       }
       {
+        // TODO: add right sidebar panels
         side === 'right' && (
           <div>
             Right Sidebar

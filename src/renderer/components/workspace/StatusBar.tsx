@@ -36,6 +36,7 @@ const StatusBar: React.FC = () => {
         </StatusBarIconButton>
       </div>
       <div className="flex items-center gap-3">
+        {/* TODO: add notification handler */}
         <StatusBarIconButton>
           <Bell size={16} strokeWidth={2} />
         </StatusBarIconButton>

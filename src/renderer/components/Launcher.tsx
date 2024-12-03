@@ -9,6 +9,7 @@ const LauncherWindow: React.FC = () => {
         <div className="w-[60%]">
           <WorkspaceCreation />
         </div>
+        {/* TODO: change background */}
         <div className="no-drag w-[40%] bg-gray-3 select-none">
           <WorkspaceList />
         </div>

@@ -5,6 +5,7 @@ import { readSettings, writeSettings } from "./settings";
 
 interface BrowserWindowWithData extends BrowserWindow { data: WindowData }
 
+// TODO: add background to avoid flash
 const createWindow = (options: BrowserWindowConstructorOptions, data: WindowData) => {
   const window = new BrowserWindow({
     ...options,

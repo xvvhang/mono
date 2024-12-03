@@ -2,6 +2,7 @@ import { Button, TextField } from "@radix-ui/themes";
 import { Dock, FolderClosed, SquarePlus } from 'lucide-react';
 import { useState } from "react";
 
+// TODO: rename this component and file
 const WorkspaceCreation: React.FC = () => {
   const [isCreatingNewWorkspace, setIsCreatingNewWorkspace] = useState(false);
   const [newWorkspaceName, setNewWorkspaceName] = useState('');
@@ -25,15 +26,17 @@ const WorkspaceCreation: React.FC = () => {
   }
 
   const handleClickSubmitCreateNewWorkspace = async () => {
-    // TODO: 兼容 Windows
+    // TODO: add support for windows path 
     const directory = `${newWorkspaceLocation}/${newWorkspaceName}`;
     const res = await window.api.invoke('launcher.create-new-workspace', directory);
+    // TODO: handle error
     if (!res.success) window.alert(res.message);
   }
 
   return (
     <div className="h-full p-16 flex flex-col gap-12">
       <div className="flex flex-col items-center gap-2 select-none">
+        {/* TODO: add app icon */}
         <div className="no-drag w-32 h-32 bg-accent-10"></div>
         <div className="no-drag text-1 text-gray-11">Version 0.0.1</div>
       </div>
