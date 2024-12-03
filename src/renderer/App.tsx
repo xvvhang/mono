@@ -1,16 +1,16 @@
-import React, { useEffect } from "react";
 import { Theme } from "@radix-ui/themes";
-import Launcher from '@/components/Launcher';
-import Workspace from '@/components/Workspace';
-import Settings from '@/components/Settings';
 import { useAtom } from "jotai";
-import { settingsAtom } from "@/store";
+import React, { useEffect } from "react";
+import Launcher from './components/Launcher';
+import Settings from './components/Settings';
+import Workspace from './components/Workspace';
+import { settingsAtom } from "./store";
 
 const queryParams = new URLSearchParams(window.location.search);
 const queryObject = Object.fromEntries(queryParams.entries());
 
 const App: React.FC = () => {
-  const [_, setSettings] = useAtom(settingsAtom);
+  const [, setSettings] = useAtom(settingsAtom);
   useEffect(() => {
     const init = async () => {
       const { success, data } = await window.api.invoke('app.get-settings');

@@ -1,14 +1,9 @@
-import {app } from "electron";
-import path from "path";
+import { app } from "electron";
 import fs from "fs";
+import path from "path";
+import { defaultSettings } from "../../shared/defaults";
 
 const settingsPath = path.join(app.getPath("userData"), "settings.json");
-
-const defaultSettings: Settings = {
-  theme: "auto",
-  lastWorkspace: "",
-  workspaces: [],
-};
 
 let cachedSettings: Settings | null = null;
 

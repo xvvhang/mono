@@ -1,4 +1,4 @@
-import { settingsAtom } from "@/store";
+import { settingsAtom } from "@/renderer/store";
 import { useAtom } from "jotai";
 import { Package2 } from "lucide-react";
 
@@ -7,7 +7,7 @@ const WorkspaceList: React.FC = () => {
 
   const handleClickWorkspace = async (folder: string) => {
     const res = await window.api.invoke('launcher.open-workspace', folder);
-    if (!res.success) console.error(res.message);
+    if (!res.success) window.alert(res.message);
   }
 
   const handleContextWorkspace = async (folder: string) => window.api.send('launcher.context-workspace', folder);

@@ -1,5 +1,5 @@
 import { Button, TextField } from "@radix-ui/themes";
-import { SquarePlus, FolderClosed, Dock } from 'lucide-react';
+import { Dock, FolderClosed, SquarePlus } from 'lucide-react';
 import { useState } from "react";
 
 const WorkspaceCreation: React.FC = () => {
@@ -13,7 +13,7 @@ const WorkspaceCreation: React.FC = () => {
   }
 
   const handleClickOpenDirectory = async () => {
-    const res = await window.api.invoke('system.open-directory', { defaultPath: newWorkspaceLocation });
+    const res = await window.api.invoke('system.select-directory', { defaultPath: newWorkspaceLocation });
     if (res.success) setNewWorksapceLocation(res.data);
     else console.error(res.message);
   }
@@ -39,7 +39,7 @@ const WorkspaceCreation: React.FC = () => {
       </div>
       <div className="no-drag flex flex-col gap-2">
         {
-          isCreatingNewWorkspace ? 
+          isCreatingNewWorkspace ?
             <>
               <TextField.Root value={newWorkspaceName} placeholder="Workspace Name..." onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewWorkspaceName(e.target.value)}>
                 <TextField.Slot>
@@ -55,7 +55,7 @@ const WorkspaceCreation: React.FC = () => {
                 <Button className="!flex-1" disabled={!(newWorkspaceName && newWorkspaceLocation)} onClick={handleClickSubmitCreateNewWorkspace}>Create</Button>
               </div>
             </>
-          : 
+          :
             <>
               <Button variant="outline" onClick={handleClickOpenExistingWorkspace}>
                 <FolderClosed size={16} />
