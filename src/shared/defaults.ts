@@ -13,6 +13,16 @@ export const defaultLauncherWindowOptions = {
   titleBarStyle: "hiddenInset" as const
 }
 
-export const defaultWorkspaceWindowOptions = {}
+export const defaultWorkspaceWindowOptions = {
+  width: 1280,
+  height: 720,
+  frame: false,
+  titleBarStyle: "hiddenInset" as const
+}
 
-export const defaultSettingsWindowOptions = {}
+export const defaultSettingsWindowOptions = {
+  width: 800,
+  height: 600,
+  frame: false,
+  titleBarStyle: "hiddenInset" as const
+}

@@ -4,10 +4,11 @@ import React, { useEffect } from "react";
 import Launcher from './components/Launcher';
 import Settings from './components/Settings';
 import Workspace from './components/Workspace';
-import { settingsAtom } from "./store";
+import "./index.css";
+import { settingsAtom } from "./store/settings";
 
-const queryParams = new URLSearchParams(window.location.search);
-const queryObject = Object.fromEntries(queryParams.entries());
+const search = new URLSearchParams(window.location.search);
+const query = Object.fromEntries(search.entries());
 
 const App: React.FC = () => {
   const [, setSettings] = useAtom(settingsAtom);
@@ -21,9 +22,9 @@ const App: React.FC = () => {
   }, []);
   return (
     <Theme appearance="dark">
-      {queryObject.type === 'launcher' && <Launcher />}
-      {queryObject.type === 'settings' && <Settings />}
-      {queryObject.type === 'workspace' && queryObject.workspace && <Workspace />}
+      {query.type === 'launcher' && <Launcher />}
+      {query.type === 'settings' && <Settings />}
+      {query.type === 'workspace' && query.workspace && <Workspace />}
     </Theme>
   )
 }

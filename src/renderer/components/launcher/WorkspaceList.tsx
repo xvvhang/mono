@@ -1,4 +1,4 @@
-import { settingsAtom } from "@/renderer/store";
+import { settingsAtom } from "../../store/settings";
 import { useAtom } from "jotai";
 import { Package2 } from "lucide-react";
 

@@ -1,6 +1,6 @@
 import { BrowserWindow, BrowserWindowConstructorOptions } from "electron";
 import path from "path";
-import { defaultLauncherWindowOptions, defaultWorkspaceWindowOptions } from "../../shared/defaults";
+import { defaultLauncherWindowOptions, defaultSettingsWindowOptions, defaultWorkspaceWindowOptions } from "../../shared/defaults";
 import { readSettings, writeSettings } from "./settings";
 
 interface BrowserWindowWithData extends BrowserWindow { data: WindowData }
@@ -40,4 +40,11 @@ export const openWorkspaceWindow = (workspace: string) => {
     createWindow(defaultWorkspaceWindowOptions, { type: "workspace", workspace });
     writeSettings({ lastWorkspace: workspace, workspaces: Array.from(new Set([workspace, ...readSettings().workspaces])) });
   }
+}
+
+export const openSettingsWindow = () => {
+  const windows = BrowserWindow.getAllWindows() as BrowserWindowWithData[];
+  const createdWindow = windows.find(window => window.data.type === "settings");
+  if (createdWindow) createdWindow.show();
+  else createWindow(defaultSettingsWindowOptions, { type: "settings" });
 }

@@ -1,4 +1,4 @@
-type StatusBarIconButtonProps = {
+interface StatusBarIconButtonProps {
   children: React.ReactNode;
   isActive?: boolean;
   handleClick?: () => void;

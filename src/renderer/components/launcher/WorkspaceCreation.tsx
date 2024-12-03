@@ -5,30 +5,30 @@ import { useState } from "react";
 const WorkspaceCreation: React.FC = () => {
   const [isCreatingNewWorkspace, setIsCreatingNewWorkspace] = useState(false);
   const [newWorkspaceName, setNewWorkspaceName] = useState('');
-  const [newWorkspaceLocation, setNewWorksapceLocation] = useState('');
+  const [newWorkspaceLocation, setNewWorkspaceLocation] = useState('');
 
   const handleClickOpenExistingWorkspace = async () => {
     const res = await window.api.invoke('launcher.open-existing-workspace');
-    if (!res.success) console.error(res.message);
+    if (!res.success) window.alert(res.message);
   }
 
   const handleClickOpenDirectory = async () => {
     const res = await window.api.invoke('system.select-directory', { defaultPath: newWorkspaceLocation });
-    if (res.success) setNewWorksapceLocation(res.data);
-    else console.error(res.message);
+    if (res.success) setNewWorkspaceLocation(res.data as string);
+    else window.alert(res.message);
   }
 
   const handleClickCancelCreateNewWorkspace = () => {
     setIsCreatingNewWorkspace(false);
     setNewWorkspaceName('');
-    setNewWorksapceLocation('');
+    setNewWorkspaceLocation('');
   }
 
   const handleClickSubmitCreateNewWorkspace = async () => {
     // TODO: 兼容 Windows
-    const folder = `${newWorkspaceLocation}/${newWorkspaceName}`;
-    const res = await window.api.invoke('launcher.create-new-workspace', folder);
-    if (!res.success) console.error(res.message);
+    const directory = `${newWorkspaceLocation}/${newWorkspaceName}`;
+    const res = await window.api.invoke('launcher.create-new-workspace', directory);
+    if (!res.success) window.alert(res.message);
   }
 
   return (
