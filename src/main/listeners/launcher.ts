@@ -1,11 +1,11 @@
 import { BrowserWindow, dialog, Menu, MenuItem, shell } from "electron";
 import fs from "fs";
-import { ensureFolderExists } from "../modules/filesystem";
+import { ensureDirectoryExists } from "../modules/filesystem";
 import { readSettings, writeSettings } from "../modules/settings";
 import { openWorkspaceWindow } from "../modules/windows";
 
 export const createNewWorkspaceListener = (event: Electron.IpcMainInvokeEvent, directory: string): InvokeResponse => {
-  const workspaceDirectory = ensureFolderExists(directory);
+  const workspaceDirectory = ensureDirectoryExists(directory);
   openWorkspaceWindow(workspaceDirectory);
   event.sender.close();
   return { success: true };

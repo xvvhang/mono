@@ -1,12 +1,14 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import MenuBar from "./workspace/MenuBar";
 import StatusBar from "./workspace/StatusBar";
 import { layoutAtom } from "../store/layout";
 import { useAtom } from "jotai";
 import Sidebar from "./workspace/Sidebar";
+import { fileTreeAtom } from "../store/files";
 
 // TODO: refactor layout
-const WorkspaceWindow: React.FC = () => {
+const WorkspaceWindow: React.FC<{ directory: string }> = ({ directory }) => {
+  const [, setFileTree] = useAtom(fileTreeAtom);
   const [layout, setLayout] = useAtom(layoutAtom);
   const [isResizing, setIsResizing] = useState(false);
   const [resizingSide, setResizingSide] = useState('left');
@@ -36,6 +38,17 @@ const WorkspaceWindow: React.FC = () => {
       }
     }
   }
+
+  const initFileTree = async () => {
+    const { success, data } = await window.api.invoke('workspace.get-file-tree', directory);
+    console.log('fileTree: ', data);
+    
+    if (success) setFileTree(data as FileTreeNode);
+  }
+
+  useEffect(() => {
+    initFileTree();
+  }, [])
 
   return (
     <div

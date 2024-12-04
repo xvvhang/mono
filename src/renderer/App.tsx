@@ -24,7 +24,7 @@ const App: React.FC = () => {
     <Theme appearance="dark">
       {query.type === 'launcher' && <Launcher />}
       {query.type === 'settings' && <Settings />}
-      {query.type === 'workspace' && query.workspace && <Workspace />}
+      {query.type === 'workspace' && query.workspace && <Workspace directory={query.workspace} />}
     </Theme>
   )
 }
