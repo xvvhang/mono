@@ -1,17 +1,26 @@
 import { atom } from "jotai";
 
+export enum LeftSidebarPanel {
+  Note = 'Note',
+  Task = 'Task'
+}
+
 interface Layout {
   leftSidebarOpen: boolean;
   leftSidebarWidth: number;
-  leftSidebarPanel: "note" | "todo";
+  leftSidebarMinWidth?: number;
+  leftSidebarPanel?: LeftSidebarPanel
   rightSidebarOpen: boolean;
   rightSidebarWidth: number;
+  rightSidebarMinWidth?: number;
 }
 
 export const layoutAtom = atom<Layout>({
   leftSidebarOpen: true,
-  leftSidebarWidth: 240,
-  leftSidebarPanel: "note",
+  leftSidebarWidth: 320,
+  leftSidebarMinWidth: 240,
+  leftSidebarPanel: LeftSidebarPanel.Note,
   rightSidebarOpen: true,
-  rightSidebarWidth: 240,
+  rightSidebarWidth: 320,
+  rightSidebarMinWidth: 240,
 });
