@@ -19,5 +19,4 @@ export const registerAPI = () => {
   ipcMain.handle('launcher.open-workspace', openWorkspaceListener);
   // workspace
   ipcMain.handle('workspace.get-file-tree', getFileTreeListener);
-  console.log('API registered');
 }

@@ -20,7 +20,7 @@ export const layoutAtom = atom<Layout>({
   leftSidebarWidth: 320,
   leftSidebarMinWidth: 240,
   leftSidebarPanel: LeftSidebarPanel.Note,
-  rightSidebarOpen: true,
+  rightSidebarOpen: false,
   rightSidebarWidth: 320,
   rightSidebarMinWidth: 240,
 });

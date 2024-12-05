@@ -15,9 +15,14 @@ export const getFileTree = (directory: string): FileTreeNode => {
   };
 
   if (stats.isDirectory()) {
-    node.children = fs.readdirSync(directory).map((child) => {
-      return getFileTree(path.join(directory, child));
-    });
+    node.children = fs.readdirSync(directory)
+      .filter((child) => !child.startsWith('.'))
+      .map((child) => {
+        return getFileTree(path.join(directory, child));
+      }).sort((a, b) => {
+        if (a.type === b.type) return a.name.localeCompare(b.name);
+        return a.type === 'directory' ? -1 : 1;
+      });
   }
 
   return node;
