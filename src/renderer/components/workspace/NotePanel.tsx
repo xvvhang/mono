@@ -13,9 +13,9 @@ const NotePanel: React.FC = () => {
       {
         noteFileTree && noteFileTree.children.map((node: FileTreeNode, idx) => {
           if (node.type === 'directory') {
-            return <NotePanelDirectory key={idx} directory={node} onDrop={(file) => console.log(file)} />
+            return <NotePanelDirectory key={idx} directory={node} level={0} onDrop={(file) => console.log(file)} />
           } else {
-            return <NotePanelFile key={idx} file={node} />
+            return <NotePanelFile key={idx} file={node} level={0} />
           }
         })
       }
