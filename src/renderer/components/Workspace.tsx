@@ -4,20 +4,29 @@ import StatusBar from "./workspace/StatusBar";
 import Layout from "./workspace/Layout";
 import { layoutAtom, LeftSidebarPanel } from "../store/layout";
 import { useAtom } from "jotai";
-import { fileTreeAtom } from "../store/files";
+import { noteFileTreeAtom, taskFileTreeAtom } from "../store/files";
 import NotePanel from "./workspace/NotePanel";
 
 const WorkspaceWindow: React.FC<{ directory: string }> = ({ directory }) => {
   const [layout] = useAtom(layoutAtom);
-  const [fileTree, setFileTree] = useAtom(fileTreeAtom);
+  const [, setNoteFileTree] = useAtom(noteFileTreeAtom);
+  const [, setTaskFileTree] = useAtom(taskFileTreeAtom);
 
   const leftSidebar = () => layout.leftSidebarPanel === LeftSidebarPanel.Note ? <NotePanel /> : <div>Task</div>;
   const rightSidebar = () => <div>right</div>
 
   useEffect(() => {
+    const getKnowledgeFiles = async () => {
+      const res = await window.api.invoke('workspace.get-knowledge-files', directory);
+      if (res.success) setNoteFileTree(res.data as FileTreeNode);
+    }
+    const getProjectFiles = async () => {
+      const res = await window.api.invoke('workspace.get-project-files', directory);
+      if (res.success) setTaskFileTree(res.data as FileTreeNode);
+    }
     const initWorkspace = async () => {
-      const res = await window.api.invoke('workspace.get-file-tree', directory);
-      if (res.success) setFileTree(res.data as FileTreeNode);
+      getKnowledgeFiles();
+      getProjectFiles();
     };
 
     initWorkspace();
@@ -26,7 +35,7 @@ const WorkspaceWindow: React.FC<{ directory: string }> = ({ directory }) => {
   return (
     <div className="w-full h-screen flex flex-col">
       <MenuBar />
-      <Layout leftSidebar={leftSidebar()} content={<div>{ JSON.stringify(fileTree) }</div>} rightSidebar={rightSidebar()} />
+      <Layout leftSidebar={leftSidebar()} content="content" rightSidebar={rightSidebar()} />
       <StatusBar />
     </div>
   )

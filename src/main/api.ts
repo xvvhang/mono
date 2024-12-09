@@ -2,7 +2,7 @@ import { ipcMain } from "electron";
 import { getSettingsListener } from "./listeners/app";
 import { contextWorkspaceListener, createNewWorkspaceListener, openExistingWorkspaceListener, openWorkspaceListener } from "./listeners/launcher";
 import { selectDirectoryListener } from "./listeners/system";
-import { getFileTreeListener } from "./listeners/workspace";
+import { getKnowledgeFilesListener, getProjectFilesListener } from "./listeners/workspace";
 import { openLauncherWindow, openSettingsWindow } from "./modules/windows";
 
 export const registerAPI = () => {
@@ -18,5 +18,6 @@ export const registerAPI = () => {
   ipcMain.handle('launcher.create-new-workspace', createNewWorkspaceListener);
   ipcMain.handle('launcher.open-workspace', openWorkspaceListener);
   // workspace
-  ipcMain.handle('workspace.get-file-tree', getFileTreeListener);
+  ipcMain.handle('workspace.get-knowledge-files', getKnowledgeFilesListener);
+  ipcMain.handle('workspace.get-project-files', getProjectFilesListener);
 }

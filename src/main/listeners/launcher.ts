@@ -6,6 +6,7 @@ import { openWorkspaceWindow } from "../modules/windows";
 
 export const createNewWorkspaceListener = (event: Electron.IpcMainInvokeEvent, directory: string): InvokeResponse => {
   const workspaceDirectory = ensureDirectoryExists(directory);
+  // TODO add default direcotries
   openWorkspaceWindow(workspaceDirectory);
   event.sender.close();
   return { success: true };
@@ -14,6 +15,7 @@ export const createNewWorkspaceListener = (event: Electron.IpcMainInvokeEvent, d
 export const openExistingWorkspaceListener = async (event: Electron.IpcMainInvokeEvent): Promise<InvokeResponse> => {
   const result = await dialog.showOpenDialog({ properties: ["openDirectory"] });
   if (result.canceled || result.filePaths.length === 0) return;
+  // TODO add check if directory is a workspace
   openWorkspaceWindow(result.filePaths[0]);
   event.sender.close();
   return { success: true }
