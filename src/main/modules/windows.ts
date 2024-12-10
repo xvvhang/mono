@@ -5,7 +5,7 @@ import { setSettings } from "./settings";
 
 interface BrowserWindowWithData extends BrowserWindow { data: WindowData }
 
-// TODO: 增加背景避免闪烁
+// TODO: add background to avoide flickering
 const createWindow = (options: BrowserWindowConstructorOptions, data: WindowData) => {
   const window = new BrowserWindow({
     ...options,

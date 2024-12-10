@@ -4,7 +4,6 @@ import React, { useEffect } from "react";
 import Launcher from './components/Launcher';
 import Settings from './components/Settings';
 import Workspace from './components/Workspace';
-import "./index.css";
 import { settingsAtom } from "./store/settings";
 
 const search = new URLSearchParams(window.location.search);
@@ -24,7 +23,7 @@ const App: React.FC = () => {
     <Theme appearance="dark">
       {query.type === 'launcher' && <Launcher />}
       {query.type === 'settings' && <Settings />}
-      {query.type === 'workspace' && query.workspace && <Workspace directory={query.workspace} />}
+      {query.type === 'workspace' && query.workspace && <Workspace workspace={query.workspace} />}
     </Theme>
   )
 }
