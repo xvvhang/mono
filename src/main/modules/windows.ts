@@ -1,11 +1,11 @@
-import { BrowserWindow, BrowserWindowConstructorOptions } from "electron";
 import path from "path";
-import { defaultLauncherWindowOptions, defaultSettingsWindowOptions, defaultWorkspaceWindowOptions } from "../../shared/defaults";
-import { readSettings, writeSettings } from "./settings";
+import { BrowserWindow, BrowserWindowConstructorOptions } from "electron";
+import { defaultLauncherWindowOptions, defaultSettingsWindowOptions } from "@/shared/defaults";
+import { setSettings } from "./settings";
 
 interface BrowserWindowWithData extends BrowserWindow { data: WindowData }
 
-// TODO: add background to avoid flash
+// TODO: 增加背景避免闪烁
 const createWindow = (options: BrowserWindowConstructorOptions, data: WindowData) => {
   const window = new BrowserWindow({
     ...options,
@@ -38,10 +38,9 @@ export const openWorkspaceWindow = (workspace: string) => {
   const createdWindow = windows.find(window => window.data.type === "workspace" && window.data.workspace === workspace);
   if (createdWindow) {
     createdWindow.show();
-  }
-  else {
-    createWindow(defaultWorkspaceWindowOptions, { type: "workspace", workspace });
-    writeSettings({ lastWorkspace: workspace, workspaces: Array.from(new Set([workspace, ...readSettings().workspaces])) });
+  } else {
+    createWindow(defaultLauncherWindowOptions, { type: "workspace", workspace });
+    setSettings({ lastWorkspace: workspace });
   }
 }
 

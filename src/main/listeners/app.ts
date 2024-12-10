@@ -1,6 +1,6 @@
-import { readSettings } from "../modules/settings";
+import { getSettings } from "../modules/settings";
 
-export const getSettingsListener = async (): Promise<InvokeResponse> => {
-  const settings = readSettings();
+export const getSettingsListener = async () => {
+  const settings = await getSettings();
   return { success: true, data: settings };
-};
+}
