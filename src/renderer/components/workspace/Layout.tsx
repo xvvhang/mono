@@ -2,31 +2,26 @@ import { layoutAtom } from "@/renderer/store/layout";
 import { useAtom } from "jotai";
 import { useEffect, useRef, useState } from "react";
 
-interface LayoutProps {
+interface Layout {
   content?: React.ReactNode;
   leftSidebar?: React.ReactNode;
   rightSidebar?: React.ReactNode;
 }
 
-const Layout: React.FC<LayoutProps> = ({
-  content,
-  leftSidebar,
-  rightSidebar
-}) => {
+const Layout: React.FC<Layout> = ({ content, leftSidebar, rightSidebar }) => {
   const [layout, setLayout] = useAtom(layoutAtom);
-
-  const [resizing, setResizing] = useState<false | 'left' | 'right'>(false)
+  const [isResizing, setIsResizing] = useState<false | 'left' | 'right'>(false)
   const leftSidebarRef = useRef<HTMLDivElement>(null);
   const rightSidebarRef = useRef<HTMLDivElement>(null);
 
   const handleMouseMove = (event: MouseEvent) => {
-    if (!resizing) return;
+    if (!isResizing) return;
 
-    const ref = resizing === 'left' ? leftSidebarRef : rightSidebarRef;
+    const ref = isResizing === 'left' ? leftSidebarRef : rightSidebarRef;
     if (!ref.current) return;
     const rect = ref.current.getBoundingClientRect();
 
-    if (resizing === 'left') {
+    if (isResizing === 'left') {
       const newWidth = event.clientX - rect.left;
       setLayout({ ...layout, leftSidebarWidth: Math.max(newWidth, layout.leftSidebarMinWidth || 200) });
     } else {
@@ -41,47 +36,45 @@ const Layout: React.FC<LayoutProps> = ({
     }
 
     window.addEventListener('mousemove', moveHandler);
-    window.addEventListener('mouseup', () => setResizing(false));
+    window.addEventListener('mouseup', () => setIsResizing(false));
 
     return () => {
       window.removeEventListener('mousemove', moveHandler);
-      window.removeEventListener('mouseup', () => setResizing(false));
+      window.removeEventListener('mouseup', () => setIsResizing(false));
     }
-  }, [resizing])
+  }, [isResizing])
 
   return (
     <div className="flex-1 flex">
-      { layout.leftSidebarOpen && (
+      {layout.leftSidebarOpen && (
         <div
           className="flex-0 relative border-r border-gray-6"
           style={{ width: layout.leftSidebarWidth }}
-          ref={leftSidebarRef}
-        >
-          { leftSidebar }
+          ref={leftSidebarRef}>
+          {leftSidebar}
           <div
             className={
               "absolute top-0 bottom-0 -right-0.5 w-1 hover:cursor-col-resize hover:bg-accent-6" +
-              (resizing === 'left' && ' bg-accent-6' || '')
+              (isResizing === 'left' && ' bg-accent-6' || '')
             }
-            onMouseDown={() => setResizing('left')}
-          ></div>
+            onMouseDown={() => setIsResizing('left')}>
+          </div>
         </div>
       )}
       <div className="flex-1">{ content }</div>
-      { layout.rightSidebarOpen && (
+      {layout.rightSidebarOpen && (
         <div
           className="flex-0 relative border-l border-gray-6"
           style={{ width: layout.rightSidebarWidth }}
-          ref={rightSidebarRef}
-        >
-          { rightSidebar }
+          ref={rightSidebarRef}>
+          {rightSidebar}
           <div
             className={
               "absolute top-0 bottom-0 -left-0.5 w-1 hover:cursor-col-resize hover:bg-accent-6" +
-              (resizing === 'right' && ' bg-accent-6' || '')
+              (isResizing === 'right' && ' bg-accent-6' || '')
             }
-            onMouseDown={() => setResizing('right')}
-          ></div>
+            onMouseDown={() => setIsResizing('right')}>
+          </div>
         </div>
       )}
     </div>

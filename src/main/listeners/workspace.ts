@@ -1,14 +1,11 @@
-import { getFileTree } from "../modules/filesystem"
-import path from "path";
+import prisma from "../modules/prisma";
 
-export const getKnowledgeFilesListener = (event: Electron.IpcMainInvokeEvent, directory: string) => {
-  const subDirectory = path.join(directory, "knowledge");
-  const data = getFileTree(subDirectory);
-  return { success: true, data };
+export const fetchNotesListener = async (): Promise<InvokeResponse> => {
+  const notes = await prisma.note.findMany();
+  return { success: true, data: notes };
 }
 
-export const getProjectFilesListener = (event: Electron.IpcMainInvokeEvent, directory: string) => {
-  const subDirectory = path.join(directory, "project");
-  const data = getFileTree(subDirectory);
-  return { success: true, data };
+export const fetchTasksListener = async (): Promise<InvokeResponse> => {
+  const tasks = await prisma.task.findMany();
+  return { success: true, data: tasks };
 }

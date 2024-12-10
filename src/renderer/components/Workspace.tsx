@@ -1,44 +1,51 @@
-import React, { useEffect } from "react";
+import { useAtom } from "jotai";
+import { layoutAtom, LeftSidebarPanel } from "../store/layout";
+import Layout from "./workspace/Layout";
 import MenuBar from "./workspace/MenuBar";
 import StatusBar from "./workspace/StatusBar";
-import Layout from "./workspace/Layout";
-import { layoutAtom, LeftSidebarPanel } from "../store/layout";
-import { useAtom } from "jotai";
-import { noteFileTreeAtom, taskFileTreeAtom } from "../store/files";
 import NotePanel from "./workspace/NotePanel";
+import TaskPanel from "./workspace/TaskPanel";
+import { noteListAtom, taskListAtom } from "../store/workspace";
+import { Note, Task } from "@prisma/client";
+import { useEffect } from "react";
 
-const WorkspaceWindow: React.FC<{ directory: string }> = ({ directory }) => {
+interface WorkspaceProps {
+  workspace: string;
+}
+
+const Workspace: React.FC<WorkspaceProps> = ({ workspace }) => {
   const [layout] = useAtom(layoutAtom);
-  const [, setNoteFileTree] = useAtom(noteFileTreeAtom);
-  const [, setTaskFileTree] = useAtom(taskFileTreeAtom);
+  const [, setNoteList] = useAtom(noteListAtom);
+  const [, setTaskLIst] = useAtom(taskListAtom);
 
-  const leftSidebar = () => layout.leftSidebarPanel === LeftSidebarPanel.Note ? <NotePanel /> : <div>Task</div>;
-  const rightSidebar = () => <div>right</div>
+  const fetchNotes = async () => {
+    const res = await window.api.invoke('workspace.fetch-notes');
+    if (res.success) setNoteList(res.data as Note[]);
+  };
+
+  const fetchTasks = async () => {
+    const res = await window.api.invoke('workspace.fetch-tasks');
+    if (res.success) setTaskLIst(res.data as Task[]);
+  }
+
+  const leftSidebarPanel = () => {
+    return layout.leftSidebarPanel === LeftSidebarPanel.Note ?
+      <NotePanel /> :
+      <TaskPanel />;
+  }
 
   useEffect(() => {
-    const getKnowledgeFiles = async () => {
-      const res = await window.api.invoke('workspace.get-knowledge-files', directory);
-      if (res.success) setNoteFileTree(res.data as FileTreeNode);
-    }
-    const getProjectFiles = async () => {
-      const res = await window.api.invoke('workspace.get-project-files', directory);
-      if (res.success) setTaskFileTree(res.data as FileTreeNode);
-    }
-    const initWorkspace = async () => {
-      getKnowledgeFiles();
-      getProjectFiles();
-    };
-
-    initWorkspace();
+    fetchNotes();
+    fetchTasks();
   }, []);
 
   return (
     <div className="w-full h-screen flex flex-col">
       <MenuBar />
-      <Layout leftSidebar={leftSidebar()} content="content" rightSidebar={rightSidebar()} />
+      <Layout leftSidebar={leftSidebarPanel()} content={<div>{ workspace }</div>} />
       <StatusBar />
     </div>
   )
 }
 
-export default WorkspaceWindow;
+export default Workspace;

@@ -22,8 +22,8 @@ const StatusBar: React.FC = () => {
   });
 
   return (
-    <div className="h-6 border-t border-gray-6 bg-gray-1 px-3 flex justify-between text-gray-11">
-      <div className="flex items-center gap-1">
+    <div className="drag h-6 border-t border-gray-6 bg-gray-1 px-3 flex justify-between text-gray-11">
+      <div className="no-drag flex items-center gap-1">
         <StatusBarIconButton handleClick={handleClickOpenSettingsWindow}>
           <Settings size={15} strokeWidth={2} />
         </StatusBarIconButton>
@@ -43,7 +43,7 @@ const StatusBar: React.FC = () => {
           <ListTodo size={16} strokeWidth={2} />
         </StatusBarIconButton>
       </div>
-      <div className="flex items-center gap-3">
+      <div className="no-drag flex items-center gap-3">
         {/* TODO: add notification handler */}
         <StatusBarIconButton>
           <Bell size={16} strokeWidth={2} />
