@@ -1,6 +1,7 @@
 import { useAtom } from "jotai";
-import { foldersAtom, notesAtom } from "../store/workspace";
+import { foldersAtom } from "../store/folder";
 import { useEffect } from "react";
+import { notesAtom } from "../store/note";
 
 export const useInitWorkspace = () => {
   const [, setFolders] = useAtom(foldersAtom);

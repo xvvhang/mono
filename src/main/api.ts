@@ -1,9 +1,10 @@
 import { ipcMain } from "electron";
-import { createWorkspaceListener, getWorkspacesListener, openWorkspaceListener } from "./listeners/launcher";
+import { createWorkspaceListener, getWorkspacesListener, openWorkspaceListener } from "./listeners/workspace";
 import { openLauncherWindow, openSettingsWindow } from "./modules/windows";
-import { getSettingsListener } from "./listeners/app";
+import { getSettingsListener } from "./listeners/settings";
 import Channels from "@/shared/constants/channels";
-import { fetchFoldersListener, fetchNotesListener } from "./listeners/workspace";
+import { fetchNotesListener } from "./listeners/note";
+import { fetchFoldersListener } from "./listeners/folder";
 
 export const registerAPI = () => {
   ipcMain.on(Channels.openLauncher, openLauncherWindow);

@@ -1,8 +1,6 @@
-import { Note } from "@prisma/client";
 import { atom } from "jotai";
 
 export const foldersAtom = atom<FolderWithSubFoldersAndNotes[]>([]);
-export const folderWithoutParentAtom = atom((get) => {
+export const foldersWithoutParentAtom = atom((get) => {
   get(foldersAtom).filter((folder: FolderWithSubFoldersAndNotes) => !folder.parentId);
 })
-export const notesAtom = atom<Note[]>([]);

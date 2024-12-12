@@ -5,6 +5,7 @@ import MenuBar from "./workspace/MenuBar";
 import StatusBar from "./workspace/StatusBar";
 import NotePanel from "./workspace/NotePanel";
 import TaskPanel from "./workspace/TaskPanel";
+import { useInitWorkspace } from "../hooks/workspace";
 
 interface WorkspaceProps {
   workspace: string;
@@ -12,6 +13,8 @@ interface WorkspaceProps {
 
 const Workspace: React.FC<WorkspaceProps> = ({ workspace }) => {
   const [layout] = useAtom(layoutAtom);
+
+  useInitWorkspace();
 
   const leftSidebarPanel = () => {
     return layout.leftSidebarPanel === LeftSidebarPanel.Note ?
