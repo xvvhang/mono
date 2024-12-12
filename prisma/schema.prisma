@@ -28,14 +28,14 @@ model Workspace {
 }
 
 model Folder {
-  id         String   @id @default(cuid())
-  name       String
-  parentId   String?
-  parent     Folder?  @relation("SubFolders", fields: [parentId], references: [id])
-  subFolders Folder[] @relation("SubFolders")
-  notes      Note[]   @relation("FolderNote")
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id        String   @id @default(cuid())
+  name      String
+  parentId  String?
+  parent    Folder?  @relation("Children", fields: [parentId], references: [id])
+  children  Folder[] @relation("Children")
+  notes     Note[]   @relation("FolderNote")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Note {
@@ -51,8 +51,8 @@ model List {
   id        String   @id @default(cuid())
   name      String
   parentId  String?
-  parent    List?    @relation("SubLists", fields: [parentId], references: [id])
-  subLists  List[]   @relation("SubLists")
+  parent    List?    @relation("Children", fields: [parentId], references: [id])
+  children  List[]   @relation("Children")
   tasks     Task[]   @relation("TaskList")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

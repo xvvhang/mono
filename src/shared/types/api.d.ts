@@ -38,7 +38,7 @@ interface CreateWorkspaceResponse extends InvokeResponse {
 }
 
 interface FetchFoldersResponse extends InvokeResponse {
-  data?: FolderWithSubFoldersAndNotes[]
+  data?: Folder[]
 }
 
 interface FetchNotesResponse extends InvokeResponse {
