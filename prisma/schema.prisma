@@ -13,6 +13,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Settings {
+  id            String   @id @default(cuid())
+  lastWorkspace String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
 model Workspace {
   id        String   @id @default(cuid())
   name      String
@@ -20,9 +27,22 @@ model Workspace {
   updatedAt DateTime @updatedAt
 }
 
-model Settings {
+model Folder {
+  id         String   @id @default(cuid())
+  name       String
+  parentId   String?
+  parent     Folder?  @relation("SubFolders", fields: [parentId], references: [id])
+  subFolders Folder[] @relation("SubFolders")
+  notes      Note[]   @relation("FolderNote")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Note {
   id        String   @id @default(cuid())
-  lastWorkspace String
+  title     String
+  folderId  String?
+  folder    Folder?  @relation("FolderNote", fields: [folderId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -30,21 +50,10 @@ model Settings {
 model List {
   id        String   @id @default(cuid())
   name      String
-  type      String
   parentId  String?
   parent    List?    @relation("SubLists", fields: [parentId], references: [id])
   subLists  List[]   @relation("SubLists")
-  notes     Note[]   @relation("NoteList")
   tasks     Task[]   @relation("TaskList")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Note {
-  id        String   @id @default(cuid())
-  title     String
-  listId    String
-  list      List     @relation("NoteList", fields: [listId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
