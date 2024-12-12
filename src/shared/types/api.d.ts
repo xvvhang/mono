@@ -6,8 +6,31 @@ type InvokeResponse = {
 
 interface Window {
   api: {
-    invoke(channel: string, ...args: unknown[]): Promise<InvokeResponse>;
-    send: (channel: string, ...args: unknown) => void;
-    on: (channel: string, listener: (...args: unknown) => void) => void;
+    openLauncher: () => void;
+    openSettings: () => void;
+    openWorkspace: (payload: OpenWorkspacePayload) => Promise<InvokeResponse>;
+    getSettings: () => Promise<GetSettingsResponse>;
+    getWorkspaces: () => Promise<GetWorkspacesResponse>;
+    createWorkspace: (payload: CreateWorkspacePayload) => Promise<CreateWorkspaceResponse>;  
   };
+}
+
+interface OpenWorkspacePayload {
+  workspace: string;
+}
+
+interface GetSettingsResponse extends InvokeResponse {
+  data: Settings
+}
+
+interface GetWorkspacesResponse extends InvokeResponse {
+  data: Workspace[]
+}
+
+interface CreateWorkspacePayload {
+  name: string;
+}
+
+interface CreateWorkspaceResponse extends InvokeResponse {
+  data: Workspace
 }

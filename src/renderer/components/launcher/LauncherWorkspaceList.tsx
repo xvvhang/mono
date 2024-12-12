@@ -6,7 +6,7 @@ const LauncherWorkspaceList: React.FC = () => {
   const [workspaceList, setWorkspaceList] = useState<Workspace[]>([])
 
   const initWorkspaceList = async () => {
-    const res = await window.api.invoke('launcher.get-workspaces');
+    const res = await window.api.getWorkspaces();
     if (res.success) setWorkspaceList(res.data as Workspace[]);
   }
 

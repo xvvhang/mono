@@ -13,7 +13,7 @@ const App: React.FC = () => {
   const [, setSettings] = useAtom(settingsAtom);
   useEffect(() => {
     const init = async () => {
-      const { success, data } = await window.api.invoke('app.get-settings');
+      const { success, data } = await window.api.getSettings();
       if (success) setSettings(data);
     }
 

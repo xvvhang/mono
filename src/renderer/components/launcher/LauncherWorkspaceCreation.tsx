@@ -12,7 +12,7 @@ const LauncherWorkspaceCreation: React.FC = () => {
   }
 
   const handleConfirmCreate = async () => {
-    await window.api.invoke('launcher.create-workspace', newWorkspace);
+    await window.api.createWorkspace({ name: newWorkspace });
   }
 
   return (

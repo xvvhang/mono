@@ -6,8 +6,8 @@ import { useAtom } from "jotai";
 const StatusBar: React.FC = () => {
   const [layout, setLayout] = useAtom(layoutAtom);
 
-  const handleClickOpenSettingsWindow = () => window.api.send("app.open-settings");
-  const handleClickOpenLauncherWindow = () => window.api.send("app.open-launcher");
+  const handleClickOpenSettingsWindow = () => window.api.openSettings();
+  const handleClickOpenLauncherWindow = () => window.api.openLauncher();
 
   const handleClickNotesPanel = () => setLayout({
     ...layout,
