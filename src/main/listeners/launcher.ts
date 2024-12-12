@@ -15,7 +15,8 @@ export const openWorkspaceListener = async (event: Electron.IpcMainInvokeEvent, 
   event.sender.close();
 };
 
-export const createWorkspaceListener = async (event: Electron.IpcMainInvokeEvent, name: string): Promise<CreateWorkspaceResponse> => {
+export const createWorkspaceListener = async (event: Electron.IpcMainInvokeEvent, payload: CreateWorkspacePayload): Promise<CreateWorkspaceResponse> => {
+  const { name } = payload;
   const workspaces = await fetchWorkspaces();
   const exists = workspaces.find((w) => w.name === name);
   if (exists) return { success: false, message: "Workspace already exists" };

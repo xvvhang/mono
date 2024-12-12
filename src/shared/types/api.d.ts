@@ -12,6 +12,8 @@ interface Window {
     getSettings: () => Promise<GetSettingsResponse>;
     getWorkspaces: () => Promise<GetWorkspacesResponse>;
     createWorkspace: (payload: CreateWorkspacePayload) => Promise<CreateWorkspaceResponse>;  
+    getFolders: () => Promise<FetchFoldersResponse>;
+    getNotes: () => Promise<FetchNotesResponse>;
   };
 }
 
@@ -33,4 +35,12 @@ interface CreateWorkspacePayload {
 
 interface CreateWorkspaceResponse extends InvokeResponse {
   data?: Workspace
+}
+
+interface FetchFoldersResponse extends InvokeResponse {
+  data?: FolderWithSubFoldersAndNotes[]
+}
+
+interface FetchNotesResponse extends InvokeResponse {
+  data?: Note[]
 }
