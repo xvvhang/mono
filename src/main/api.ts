@@ -7,7 +7,7 @@ import Channels from "@/shared/constants/channels";
 export const registerAPI = () => {
   ipcMain.on(Channels.openLauncher, openLauncherWindow);
   ipcMain.on(Channels.openSettings, openSettingsWindow);
-  ipcMain.handle(Channels.openWorkspace, openWorkspaceListener);
+  ipcMain.on(Channels.openWorkspace, openWorkspaceListener);
 
   ipcMain.handle(Channels.getSettings, getSettingsListener);
   ipcMain.handle(Channels.getWorkspaces, getWorkspacesListener);

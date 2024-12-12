@@ -32,5 +32,5 @@ interface CreateWorkspacePayload {
 }
 
 interface CreateWorkspaceResponse extends InvokeResponse {
-  data: Workspace
+  data?: Workspace
 }

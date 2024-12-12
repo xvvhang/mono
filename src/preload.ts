@@ -4,7 +4,7 @@ import Channels from "./shared/constants/channels";
 contextBridge.exposeInMainWorld("api", {
   openLauncher: () => ipcRenderer.send(Channels.openLauncher),
   openSettings: () => ipcRenderer.send(Channels.openSettings),
-  openWorkspace: (payload: OpenWorkspacePayload) => ipcRenderer.invoke(Channels.openWorkspace, payload),
+  openWorkspace: (payload: OpenWorkspacePayload) => ipcRenderer.send(Channels.openWorkspace, payload),
 
   getSettings: (): Promise<GetSettingsResponse> => ipcRenderer.invoke(Channels.getSettings),
   getWorkspaces: (): Promise<GetWorkspacesResponse> => ipcRenderer.invoke(Channels.getWorkspaces),
