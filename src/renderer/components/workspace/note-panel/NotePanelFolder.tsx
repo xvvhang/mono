@@ -1,9 +1,9 @@
-import { foldersAtom } from "@/renderer/store/folder";
-import { notesAtom } from "@/renderer/store/note";
 import { Folder } from "@prisma/client";
 import { useAtom } from "jotai";
 import { FolderClosed, FolderOpen } from "lucide-react";
 import { useState } from "react";
+import { foldersAtom } from "../../../store/folder";
+import { notesAtom } from "../../../store/note";
 import NotePanelNote from "./NotePanelNote";
 
 interface NotePanelFolderProps {
@@ -19,7 +19,7 @@ const NotePanelFolder: React.FC<NotePanelFolderProps> = ({ folder, level }) => {
   const children = folders.filter((f) => f.parentId === folder.id);
   const foldreNotes = notes.filter((n) => n.folderId === folder.id);
 
-  const handleContextMenu = () => {}
+  const handleContextMenu = () => { }
 
   return (
     <>
@@ -28,9 +28,9 @@ const NotePanelFolder: React.FC<NotePanelFolderProps> = ({ folder, level }) => {
         style={{ paddingLeft: `${level * 12 + 12}px` }}
         onClick={() => setOpen(!open)}
         onContextMenu={handleContextMenu}>
-          <div className="flex-0">{open ? <FolderOpen size={14} /> : <FolderClosed size={14} />}</div>
-          <div className="flex-1 text-sm truncate">{folder.name}</div>
-        </div>
+        <div className="flex-0">{open ? <FolderOpen size={14} /> : <FolderClosed size={14} />}</div>
+        <div className="flex-1 text-sm truncate">{folder.name}</div>
+      </div>
       {open && children.map((child) => (
         <NotePanelFolder folder={child} level={level + 1} />
       ))}

@@ -1,7 +1,7 @@
-import { LeftSidebarPanel, layoutAtom } from "@/renderer/store/layout";
-import StatusBarIconButton from "./status-bar/StatusBarIconButton";
-import { Bell, Package2, ListTodo, ListTree, Settings } from "lucide-react";
 import { useAtom } from "jotai";
+import { Bell, ListTodo, ListTree, Package2, Settings } from "lucide-react";
+import { layoutAtom, LeftSidebarPanel } from "../../store/layout";
+import StatusBarIconButton from "./status-bar/StatusBarIconButton";
 
 const StatusBar: React.FC = () => {
   const [layout, setLayout] = useAtom(layoutAtom);

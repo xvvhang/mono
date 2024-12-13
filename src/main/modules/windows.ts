@@ -1,6 +1,6 @@
-import path from "path";
 import { BrowserWindow, BrowserWindowConstructorOptions } from "electron";
-import { defaultLauncherWindowOptions, defaultSettingsWindowOptions } from "@/shared/constants/defaults";
+import path from "path";
+import { defaultLauncherWindowOptions, defaultSettingsWindowOptions } from "../../shared/constants/defaults";
 import { setSettings } from "./settings";
 
 interface BrowserWindowWithData extends BrowserWindow { data: WindowData }

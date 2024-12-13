@@ -1,6 +1,6 @@
-import { layoutAtom } from "@/renderer/store/layout";
 import { useAtom } from "jotai";
 import { useEffect, useRef, useState } from "react";
+import { layoutAtom } from "../../store/layout";
 
 interface Layout {
   content?: React.ReactNode;
@@ -61,7 +61,7 @@ const Layout: React.FC<Layout> = ({ content, leftSidebar, rightSidebar }) => {
           </div>
         </div>
       )}
-      <div className="flex-1">{ content }</div>
+      <div className="flex-1">{content}</div>
       {layout.rightSidebarOpen && (
         <div
           className="flex-0 relative border-l border-gray-6"

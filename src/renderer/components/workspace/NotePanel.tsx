@@ -1,14 +1,14 @@
-import { foldersWithoutParentAtom } from "@/renderer/store/folder";
 import { useAtom } from "jotai";
+import { foldersWithoutParentAtom } from "../../store/folder";
+import { notesWithoutFolderAtom } from "../../store/note";
 import NotePanelFolder from "./note-panel/NotePanelFolder";
-import { notesWithoutFolderAtom } from "@/renderer/store/note";
 import NotePanelNote from "./note-panel/NotePanelNote";
 
 const NotePanel: React.FC = () => {
   const [foldersWithoutParent] = useAtom(foldersWithoutParentAtom);
   const [notesWithoutFolder] = useAtom(notesWithoutFolderAtom);
 
-  const handleContextMenu = () => {}
+  const handleContextMenu = () => { }
 
   return (
     <div
