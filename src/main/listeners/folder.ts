@@ -1,6 +1,6 @@
-import prisma from "../modules/prisma";
+import { fetchFolders } from "../modules/folder";
 
 export const fetchFoldersListener = async (): Promise<FetchFoldersResponse> => {
-  const folders = await prisma.folder.findMany();
+  const folders = await fetchFolders();
   return { success: true, data: folders };
 }

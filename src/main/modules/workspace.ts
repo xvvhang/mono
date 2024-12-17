@@ -1,7 +1,7 @@
 import { Workspace } from "@prisma/client";
 import prisma from "./prisma";
 
-let cached: boolean = false;
+let cached = false;
 let cachedWorkspace: Workspace[] = [];
 
 export const fetchWorkspaces = async (): Promise<Workspace[]> => {
