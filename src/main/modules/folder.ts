@@ -3,18 +3,47 @@ import prisma from "./prisma";
 
 interface CreateFolderPayload {
   name?: string;
-  parent: string;
+  parentId?: string;
 }
 
 export const createFolder = async (payload: CreateFolderPayload): Promise<Folder> => {
-  return await prisma.folder.create({ data: { name: payload.name, parentId: payload.parent } });
+  try {
+    const { name, parentId } = payload;
+
+    if (parentId) {
+      const folder = await prisma.folder.findUnique({
+        where: { id: parentId },
+      });
+
+      if (!folder) {
+        throw new Error(`Folder with id ${parentId} not found`);
+      }
+    }
+
+    return await prisma.folder.create({
+      data: {
+        name: name || "Untitled Folder",
+        parentId: parentId || null
+      },
+    });
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 }
 
-// export const deleteFolder = async (folder: string): Promise<boolean> => {}
+export const deleteFolder = async (folder: string): Promise<boolean> => {
+  try {
+    await prisma.folder.delete({
+      where: { id: folder }
+    });
 
-// interface UpdateFolderPayload {}
-
-// export const updateFolder = async (folder: string, payload: UpdateFolderPayload): Promise<Folder> => {}
+    return true;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
 
 export const fetchFolders = async (): Promise<Folder[]> => {
   return await prisma.folder.findMany();

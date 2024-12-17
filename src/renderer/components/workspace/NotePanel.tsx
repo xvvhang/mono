@@ -8,7 +8,7 @@ const NotePanel: React.FC = () => {
   const [foldersWithoutParent] = useAtom(foldersWithoutParentAtom);
   const [notesWithoutFolder] = useAtom(notesWithoutFolderAtom);
 
-  const handleContextMenu = () => { }
+  const handleContextMenu = () => window.api.contextFolder();
 
   return (
     <div

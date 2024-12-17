@@ -19,7 +19,10 @@ const NotePanelFolder: React.FC<NotePanelFolderProps> = ({ folder, level }) => {
   const children = folders.filter((f) => f.parentId === folder.id);
   const foldreNotes = notes.filter((n) => n.folderId === folder.id);
 
-  const handleContextMenu = () => { }
+  const handleContextMenu = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    window.api.contextFolder({ folderId: folder.id });
+  }
 
   return (
     <>

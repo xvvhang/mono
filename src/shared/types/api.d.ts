@@ -9,11 +9,18 @@ interface Window {
     openLauncher: () => void;
     openSettings: () => void;
     openWorkspace: (payload: OpenWorkspacePayload) => Promise<InvokeResponse>;
+    
     getSettings: () => Promise<GetSettingsResponse>;
+
     getWorkspaces: () => Promise<GetWorkspacesResponse>;
     createWorkspace: (payload: CreateWorkspacePayload) => Promise<CreateWorkspaceResponse>;  
-    getFolders: () => Promise<FetchFoldersResponse>;
-    getNotes: () => Promise<FetchNotesResponse>;
+
+    getFolders: () => Promise<GetFoldersResponse>;
+
+    getNotes: () => Promise<GetNotesResponse>;
+
+    contextFolder: (payload?: ContextFolderPayload) => void;
+    contextNote: () => void;
   };
 }
 
@@ -37,10 +44,19 @@ interface CreateWorkspaceResponse extends InvokeResponse {
   data?: Workspace
 }
 
-interface FetchFoldersResponse extends InvokeResponse {
+interface GetFoldersResponse extends InvokeResponse {
   data?: Folder[]
 }
 
-interface FetchNotesResponse extends InvokeResponse {
+interface GetNotesResponse extends InvokeResponse {
   data?: Note[]
+}
+
+interface ContextFolderPayload {
+  folderId?: string;
+}
+
+interface ContextNotePayload {
+  folder?: string;
+  note: string;
 }

@@ -1,15 +1,36 @@
 import { Note } from "@prisma/client";
 import prisma from "./prisma";
 
-// interface CreateNotePayload {}
+interface CreateNotePayload {
+  title?: string;
+  folderId?: string;
+}
 
-// export const createNote = async (payload: CreateNotePayload): Promise<Note> => {}
+export const createNote = async (payload: CreateNotePayload): Promise<Note> => {
+  try {
+    const { title, folderId } = payload;
 
-// export const deleteNote = async (note: string): Promise<boolean> => {}
+    if (folderId) {
+      const folder = await prisma.folder.findUnique({
+        where: { id: folderId },
+      });
 
-// interface UpdateNotePayload {}
+      if (!folder) {
+        throw new Error(`Folder with id ${folderId} not found`);
+      }
+    }
 
-// export const updateNote = async (note: string, payload: UpdateNotePayload): Promise<Note> => {}
+    return await prisma.note.create({
+      data: {
+        title: title || "Untitled Note",
+        folderId: folderId || null
+      },
+    });
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
 
 export const fetchNotes = async (): Promise<Note[]> => {
   return await prisma.note.findMany();
