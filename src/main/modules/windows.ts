@@ -1,6 +1,6 @@
 import { BrowserWindow, BrowserWindowConstructorOptions } from "electron";
 import path from "path";
-import { defaultLauncherWindowOptions, defaultSettingsWindowOptions } from "../../shared/constants/defaults";
+import { defaultLauncherWindowOptions, defaultSettingsWindowOptions, defaultWorkspaceWindowOptions } from "../../shared/constants/defaults";
 import { setSettings } from "./settings";
 
 interface BrowserWindowWithData extends BrowserWindow { data: WindowData }
@@ -39,7 +39,7 @@ export const openWorkspaceWindow = (workspace: string) => {
   if (createdWindow) {
     createdWindow.show();
   } else {
-    createWindow(defaultLauncherWindowOptions, { type: "workspace", workspace });
+    createWindow(defaultWorkspaceWindowOptions, { type: "workspace", workspace });
     setSettings({ lastWorkspace: workspace });
   }
 }

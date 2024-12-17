@@ -15,7 +15,7 @@ const NotePanelNote: React.FC<NotePanelNoteProps> = ({ note, level }) => {
 
   return (
     <div
-      className="pr-3 flex items-center gap-2"
+      className="pr-3 py-0.5 flex items-center gap-2 select-none"
       style={{ paddingLeft: `${level * 12 + 12}px` }}
       onClick={handleClick}
       onContextMenu={handleContextMenu}>

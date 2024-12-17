@@ -27,7 +27,7 @@ const NotePanelFolder: React.FC<NotePanelFolderProps> = ({ folder, level }) => {
   return (
     <>
       <div
-        className="pr-3 flex items-center gap-2"
+        className="pr-3 py-0.5 flex items-center gap-2 select-none"
         style={{ paddingLeft: `${level * 12 + 12}px` }}
         onClick={() => setOpen(!open)}
         onContextMenu={handleContextMenu}>
@@ -35,10 +35,10 @@ const NotePanelFolder: React.FC<NotePanelFolderProps> = ({ folder, level }) => {
         <div className="flex-1 text-sm truncate">{folder.name}</div>
       </div>
       {open && children.map((child) => (
-        <NotePanelFolder folder={child} level={level + 1} />
+        <NotePanelFolder key={child.id} folder={child} level={level + 1} />
       ))}
       {open && foldreNotes.map((note) => (
-        <NotePanelNote note={note} level={level + 1} />
+        <NotePanelNote key={note.id} note={note} level={level + 1} />
       ))}
     </>
   )
