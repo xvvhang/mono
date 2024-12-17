@@ -1,6 +1,7 @@
 import { IpcMainEvent, Menu, MenuItem } from "electron"
 import { createNote, deleteNote } from "../modules/note";
 import { createFolder, deleteFolder } from "../modules/folder";
+import Channels from "../../shared/constants/channels";
 
 export const contextFolderListener = (event: IpcMainEvent, payload?: ContextFolderPayload) => {
   const folderId = payload?.folderId;
@@ -26,6 +27,14 @@ export const contextFolderListener = (event: IpcMainEvent, payload?: ContextFold
   menu.append(newFolderMenuItem);
 
   if (folderId) {
+    menu.append(new MenuItem({ type: "separator" }));
+
+    const renameMenuItem = new MenuItem({
+      label: "Rename",
+      click: () => event.sender.send(Channels.renameFolderFromContextFolder, { folderId })
+    });
+    menu.append(renameMenuItem);
+
     const deleteMenuItem = new MenuItem({
       label: "Delete",
       click: async () => {

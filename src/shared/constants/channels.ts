@@ -14,6 +14,7 @@ enum Channels {
 
   contextFolder = 'context-folder',
   contextNote = 'context-note',
+  renameFolderFromContextFolder = 'rename-folder-from-context-folder',
 }
 
 export default Channels;

@@ -2,6 +2,10 @@ import { contextBridge, ipcRenderer } from "electron";
 import Channels from "./shared/constants/channels";
 
 contextBridge.exposeInMainWorld("api", {
+  once: (channel: Channels, listener: MessageListener) => ipcRenderer.once(channel, listener),
+  on: (channel: Channels, listener: MessageListener) => ipcRenderer.on(channel, listener),
+  off: (channel: Channels, listener: MessageListener) => ipcRenderer.removeListener(channel, listener),
+
   openLauncher: () => ipcRenderer.send(Channels.openLauncher),
   openSettings: () => ipcRenderer.send(Channels.openSettings),
   openWorkspace: (payload: OpenWorkspacePayload) => ipcRenderer.send(Channels.openWorkspace, payload),

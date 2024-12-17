@@ -5,6 +5,8 @@ import { useState } from "react";
 import { foldersAtom } from "../../../store/folder";
 import { notesAtom } from "../../../store/note";
 import NotePanelNote from "./NotePanelNote";
+import Channels from "../../../../shared/constants/channels";
+import { useListener } from "../../../hooks/listener";
 
 interface NotePanelFolderProps {
   folder: Folder
@@ -23,6 +25,10 @@ const NotePanelFolder: React.FC<NotePanelFolderProps> = ({ folder, level }) => {
     event.stopPropagation();
     window.api.contextFolder({ folderId: folder.id });
   }
+
+  useListener(Channels.renameFolderFromContextFolder, () => {
+    console.log('rename')
+  })
 
   return (
     <>

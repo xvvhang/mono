@@ -4,8 +4,14 @@ type InvokeResponse = {
   data?: unknown;
 };
 
+type MessageListener = (event: IpcRendererEvent, ...args: unknown[]) => void;
+
 interface Window {
   api: {
+    on: (channel: string, listener: MessageListener) => void;
+    off: (channel: string, listener: MessageListener) => void;
+    once: (channel: string, listener: MessageListener) => void;
+
     openLauncher: () => void;
     openSettings: () => void;
     openWorkspace: (payload: OpenWorkspacePayload) => Promise<InvokeResponse>;
