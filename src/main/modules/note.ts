@@ -32,6 +32,19 @@ export const createNote = async (payload: CreateNotePayload): Promise<Note> => {
   }
 }
 
+export const deleteNote = async (noteId: string): Promise<boolean> => {
+  try {
+    await prisma.note.delete({
+      where: { id: noteId }
+    });
+
+    return true;
+  } catch (error) {
+    console.error(error);
+    throw error; 
+  }
+}
+
 export const fetchNotes = async (): Promise<Note[]> => {
   return await prisma.note.findMany();
 }

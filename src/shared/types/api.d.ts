@@ -20,7 +20,7 @@ interface Window {
     getNotes: () => Promise<GetNotesResponse>;
 
     contextFolder: (payload?: ContextFolderPayload) => void;
-    contextNote: () => void;
+    contextNote: (payload?: ContextNotePayload) => void;
   };
 }
 
@@ -57,6 +57,5 @@ interface ContextFolderPayload {
 }
 
 interface ContextNotePayload {
-  folder?: string;
-  note: string;
+  noteId: string;
 }

@@ -1,5 +1,5 @@
 import { IpcMainEvent, Menu, MenuItem } from "electron"
-import { createNote } from "../modules/note";
+import { createNote, deleteNote } from "../modules/note";
 import { createFolder, deleteFolder } from "../modules/folder";
 
 export const contextFolderListener = (event: IpcMainEvent, payload?: ContextFolderPayload) => {
@@ -39,4 +39,17 @@ export const contextFolderListener = (event: IpcMainEvent, payload?: ContextFold
   menu.popup();
 }
 
-export const contextNoteListener = (event: IpcMainEvent, payload: ContextNotePayload) => {}
+export const contextNoteListener = (event: IpcMainEvent, payload: ContextNotePayload) => {
+  const noteId = payload.noteId;
+  const menu = new Menu();
+
+  const deleteMenuItem = new MenuItem({
+    label: "Delete",
+    click: async () => {
+      await deleteNote(noteId);
+    }
+  });
+  menu.append(deleteMenuItem);
+
+  menu.popup();
+}

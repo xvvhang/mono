@@ -8,7 +8,11 @@ interface NotePanelNoteProps {
 
 const NotePanelNote: React.FC<NotePanelNoteProps> = ({ note, level }) => {
   const handleClick = () => {}
-  const handleContextMenu = () => {}
+  const handleContextMenu = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    window.api.contextNote({ noteId: note.id })
+  }
+
   return (
     <div
       className="pr-3 flex items-center gap-2"
